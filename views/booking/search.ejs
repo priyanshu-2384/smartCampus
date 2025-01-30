@@ -1,0 +1,130 @@
+<% layout("layouts/boilerplate") %>
+
+    <style>
+        .card {
+            width: 22rem;
+            margin: 1rem;
+            background-color: transparent !important;
+            border: none !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            height: 250px;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover img {
+            opacity: 0.8;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .form-column {
+            flex: 1 1 45%;
+            margin: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-column {
+                flex: 1 1 100%;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+
+    <div class="row texts" style="justify-content: center;">
+        <div class="col-10 texts">
+            <br><br>
+            <!-- Forms Section -->
+            <% if (currUser.role=='Organiser') { %>
+            <div class="">
+                <h2 class="texts">Create Event</h2>
+                <form method="POST" action="/plan/createPlan" enctype="multipart/form-data" class="create-plan-form">
+                    <div class="form-inline" style="display: flex; flex-direction: row;">
+                        <div class="mb-3 me-2 texts">
+                            <label for="name" class="form-label texts"></label>
+                            <input placeholder="Enter Name" name="name" type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3 texts">
+                            <label for="location" class="form-label texts"></label>
+                            <input placeholder="Enter Location" name="location" type="text" class="form-control"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-inline" style="display: flex; flex-direction: row;">
+                        <div class="mb-3 me-2 texts">
+                            <label for="startDate" class="form-label texts">Start Date</label>
+                            <input placeholder="Enter Start Date" name="startDate" type="date" class="form-control"
+                                required>
+                        </div>
+                        <div class="mb-3 me-2 texts">
+                            <label for="endDate" class="form-label texts">End Date</label>
+                            <input placeholder="Enter End Date" name="endDate" type="date" class="form-control"
+                                required>
+                        </div>
+                    </div>
+                    <div class="ms-2 mb-3 texts">
+                        <label for="image" class="form-label texts">Display image</label>
+                        <input name="image" type="file" class="form-control" required>
+                    </div>
+                    <div class="mb-3 texts">
+                        <label for="description" class="form-label texts"></label>
+                        <input placeholder="Enter Description" name="description" type="text" class="form-control"
+                            required>
+                    </div>
+                    <div class="mb-3 texts">
+                        <label for="email" class="form-label texts"></label>
+                        <input placeholder="Enter Email" name="email" type="text" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark add-btn texts">Create Event</button>
+                </form>
+            </div>
+            <br><br>
+            <!-- </div> -->
+            <% } %>
+
+            <div class="col-12 texts">
+                <div class=" mb-3">
+                    <h3 class="texts text-center">Events At the Campus</h3>
+                </div>
+                <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1" style="justify-content: center;">
+                    <%for(plan of plans) { %>
+                        <div class="col listing-card bg">
+                            <div class="card">
+                                <a href="/plan/<%=plan._id%>" style="text-decoration: none;">
+                                    <h5 class="card-text texts text-center">
+                                        <b>
+                                            <%=plan.city%>
+                                        </b>
+                                    </h5>
+                                    <img src="<%=plan.image.url%>" class="card-img-top img-hover bg"
+                                        alt="listing_image">
+                                    <div class="card-body" style="display: flex; flex-direction: row;">
+                                        <p class="card-text texts " style="margin-left: auto;">
+                                            <b>
+                                                <%=plan.participants.length%> <i>users participated</i>
+                                            </b> <i class="fa-solid fa-user-group"></i>
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <%}%>
+
+                </div>
+            </div>
+        </div>

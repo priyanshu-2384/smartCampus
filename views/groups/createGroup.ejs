@@ -1,0 +1,156 @@
+<% layout("layouts/boilerplate") %>
+<style>
+    .image-upload-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .image-preview {
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 5px;
+    }
+
+    .remove-btn {
+        cursor: pointer;
+        background-color: black;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        padding: 5px;
+        font-size: 18px;
+        display: block;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    #tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .tag-item {
+        background-color: #f1f1f1;
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .tag-item button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-left: 5px;
+        color: red;
+    }
+</style>
+
+<body>
+    <div class="row">
+        <div class="col-10 col-md-8 offset-1 offset-md-2">
+            <h2 class="texts mt-3">Create New Group</h2>
+            <form id="group-form" method="POST" action="/getGroups/createGroup/<%=currUser.username%>" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="name" class="form-label texts">Group Name</label>
+                    <input placeholder="Enter Group Name" name="group[name]" type="text" class="form-control" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="image" class="form-label texts">Upload Image</label>
+                    <div id="image-container" class="image-upload-wrapper">
+                        <input type="file" id="image-input" name="group[image]" class="form-control" accept="image/*" hidden>
+                        <button type="button" class="btn btn-secondary" id="upload-btn">Upload Image</button>
+                        <div id="image-preview" class="image-preview" style="display: none;"></div>
+                        <button type="button" class="remove-btn" id="remove-image" style="display: none;">X</button>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label texts">Description</label>
+                    <textarea placeholder="Write Description" name="group[description]" class="form-control" required></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="tags" class="form-label texts">Tags</label>
+                    <div class="input-group">
+                        <input type="text" id="tag-input" class="form-control me-3" placeholder="Enter a tag">
+                        <button type="button" id="add-tag-btn" class="btn btn-secondary">+</button>
+                    </div>
+                    <div id="tag-list" class="mt-2"></div>
+                    <input type="hidden" name="tags" id="hidden-tags">
+                </div>
+                
+                <button type="submit" class="btn btn-dark add-btn">Create Group</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("upload-btn").addEventListener("click", function () {
+            document.getElementById("image-input").click();
+        });
+
+        document.getElementById("image-input").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imagePreview = document.getElementById("image-preview");
+                imagePreview.style.backgroundImage = `url('${e.target.result}')`;
+                imagePreview.style.display = "block";
+                document.getElementById("remove-image").style.display = "block";
+                document.getElementById("upload-btn").style.display = "none";
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById("remove-image").addEventListener("click", function () {
+            document.getElementById("image-input").value = "";
+            document.getElementById("image-preview").style.display = "none";
+            document.getElementById("remove-image").style.display = "none";
+            document.getElementById("upload-btn").style.display = "block";
+        });
+
+        document.getElementById("add-tag-btn").addEventListener("click", function () {
+            const tagInput = document.getElementById("tag-input");
+            const tagList = document.getElementById("tag-list");
+            const hiddenTags = document.getElementById("hidden-tags");
+
+            const tagValue = tagInput.value.trim();
+            if (tagValue === "") return;
+
+            const tagItem = document.createElement("div");
+            tagItem.className = "tag-item";
+            tagItem.innerHTML = `<span>${tagValue}</span> <button type="button" class="remove-tag">x</button>`;
+
+            tagItem.querySelector(".remove-tag").addEventListener("click", function () {
+                tagItem.remove();
+                updateHiddenTags();
+            });
+
+            tagList.appendChild(tagItem);
+            updateHiddenTags();
+            tagInput.value = "";
+        });
+
+        function updateHiddenTags() {
+            const tagList = document.querySelectorAll(".tag-item span");
+            const hiddenTags = document.getElementById("hidden-tags");
+
+            let tagsArray = [];
+            tagList.forEach(tag => {
+                tagsArray.push(tag.innerText);
+            });
+
+            hiddenTags.value = tagsArray.join(",");
+        }
+    </script>
+</body>

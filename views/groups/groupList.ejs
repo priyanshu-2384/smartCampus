@@ -1,0 +1,106 @@
+<% layout("layouts/boilerplate") %>
+
+<style>
+    .group-card {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 10px 0;
+        transition: transform 0.3s ease;
+    }
+    
+    .group-card:hover {
+        transform: scale(1.02);
+    }
+    
+    .group-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+    }
+    
+    .group-info {
+        flex: 1;
+    }
+    
+    .group-info h5 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .group-info p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .tag {
+        background: #e1251b;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+
+    .btn-create-group {
+        background: #e1251b;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+
+    .btn-create-group:hover {
+        background: #bf1e17;
+        color: white;
+    }
+    a {
+    text-decoration: none;
+}
+</style>
+
+<div class="container mt-4">
+    <!-- Heading and Create Group button -->
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="text-white">Explore Groups</h2>
+        <a href="/getGroups/createGroup" class="btn-create-group">Create Group</a>
+    </div>
+    
+    <br>
+    <div class="row">
+        <% for (let group of groups) { %>
+            <div class="col-12">
+                <a href="/getGroups/group/<%= group._id %>">
+                    <div class="group-card">
+                        <img src="<%= group.image.url %>" alt="<%= group.name %> Image">
+                        <div class="group-info">
+                            <h5><%= group.name %></h5>
+                            <p><%= group.description %></p>
+                            <p><b>Created At:</b> <%= new Date(group.createdAt).toLocaleDateString() %></p>
+                            <p><b>Participants:</b> <%= group.participants.length %></p>
+                            <div class="tags">
+                                <% group.tags.forEach(tag => { %>
+                                    <span class="tag"><%= tag %></span>
+                                <% }) %>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <% } %>
+    </div>
+</div>

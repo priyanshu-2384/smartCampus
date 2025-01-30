@@ -1,0 +1,102 @@
+<% layout("layouts/boilerplate") %>
+  <style>
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      height: 90vh;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-box {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 75%;
+      word-wrap: break-word;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background-color: #007bff;
+      color: white;
+    }
+
+    .message.bot {
+      align-self: flex-start;
+      background-color: #e5e5ea;
+      color: black;
+    }
+
+    form {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 1rem;
+      outline: none;
+      margin-right: 10px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .chat-box::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-box::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="chat-box">
+      <% chat.forEach((message)=> { %>
+        <div class="message user">
+          <%= message.user %>
+        </div>
+        <div class="message bot">
+          <%= message.bot %>
+        </div>
+        <% }); %>
+    </div>
+
+    <form action="/send-message" method="POST">
+      <input type="text" name="userMessage" placeholder="Type a message..." required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
