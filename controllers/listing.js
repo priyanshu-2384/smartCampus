@@ -51,6 +51,15 @@ module.exports.home = async (req, res) => {
     res.render("listings/home.ejs", { allListings, events, groups });
 };
 
+module.exports.leaderboard = async (req, res) => {
+    let users = await User.find({});
+
+    // Sort users based on the number of followers in descending order
+    users.sort((a, b) => b.followers.length - a.followers.length);
+
+    res.render("listings/leaderboard.ejs", { users });
+};
+
 
 
 module.exports.index = async (req, res) => {

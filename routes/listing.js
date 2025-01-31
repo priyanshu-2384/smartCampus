@@ -19,6 +19,7 @@ router.get("/new",isLoggedIn, listingController.createListingForm);
 router.post("/",upload.array('images',5),validateListing, wrapAsync(listingController.createListing));
 
 //search route
+router.get("/leaderboard",isLoggedIn, listingController.leaderboard)
 router.post("/city",listingController.search);
 router.get("/myBookmarks",wrapAsync(listingController.myBookmarks));
 router.get("/attendance",wrapAsync(listingController.attendance));

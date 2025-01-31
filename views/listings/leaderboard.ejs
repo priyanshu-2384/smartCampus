@@ -1,0 +1,196 @@
+<% layout("layouts/boilerplate") %>
+    <style>
+        .card-user-title {
+            display: flex;
+            flex-direction: row;
+            padding-left: 0;
+            padding-top: 2rem;
+        }
+
+        .user-image-card-title {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+
+        .review-header {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .user-image-card-review {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+
+        .review-buttons {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .replies {
+            display: none;
+            margin-left: 2rem;
+        }
+
+        .reply-form {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .profile-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .follower {
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .follower:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .follower-body {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            padding: 10px;
+            min-height: 70px;
+        }
+
+        .follower-title {
+            margin-bottom: 0.2rem;
+        }
+
+        .mutual-followers {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .join-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgb(13, 179, 13);
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-left: auto;
+        }
+
+        .leave-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgb(138, 5, 5);
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-left: auto;
+        }
+
+        .follow-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #d83b44;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-left: auto;
+        }
+
+        .follow-btn:hover {
+            background-color: #d83b44;
+        }
+
+        .unfollow-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #282828;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-left: auto;
+        }
+
+        .unfollow-btn:hover {
+            background-color: #282828;
+        }
+
+        .heading {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .follower-body .ml-3 {
+            margin-left: 1rem;
+            flex: 1;
+        }
+
+        .username {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .username:hover {
+            text-decoration: underline;
+        }
+
+        /* Media query to hide the followers count on smaller screens */
+        @media (max-width: 768px) {
+            .mutual-followers {
+                display: none;
+            }
+        }
+    </style>
+
+<div class="row show-page mt-4"  data-user-id="<%= currUser._id %>">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 mx-auto">
+        <div class="card-show col-12">
+            <div class="container">
+                <div class="following-list">
+                    <div class="heading texts">Leaderboard</div>
+                    <div class="row" id="interested-users-list">
+                        <% users.forEach(user => { %>
+                            <div class="col-12 interested-user" data-user-id="<%= user._id %>">
+                                <div class="card follower secbg texts">
+                                    <div class="card-body follower-body">
+                                        <img class="profile-logo" src="<%= user.image.url %>" alt="profile-logo">
+                                        <div class="ml-3">
+                                            <h5 class="card-title follower-title"><a class="username texts" href="/u/<%= user.username %>"><%= user.username %></a></h5>
+                                            <p class="card-text full-name texts"><%= user.contact %></p>
+                                        </div>
+                                        <p class="card-text mutual-followers texts me-3 mt-4" id="followers-count-<%= user._id %>"><b><%= user.followers.length %> followers</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

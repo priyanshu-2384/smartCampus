@@ -231,13 +231,52 @@
             <div class="navbar-nav me-4">
                 <a class="nav-link texts" href="/getGroups">Communities <i class="fa-solid fa-handshake"></i></a>
             </div>
-            <% if(currUser && currUser.role==="Student") { %>
-            <!-- <div class="navbar-nav me-4">
-                <a class="nav-link texts" href="/listings/attendance">My Attendance</a>
-            </div> -->
-            <% } else  if(currUser && currUser.role==="Teacher"){ %>
-                <div class="navbar-nav me-4"></div>
-                   <a class="nav-link texts" href="/listings/attendanceFilter">Update Attendance</a>
+            <div class="navbar-nav me-4">
+                <a class="nav-link texts" href="/listings/leaderboard">LeaderBoard</a>
+            </div>
+            <!-- Notification Icon in Navbar -->
+            <% if(currUser) { %>
+                <!-- Notification Button in Navbar -->
+                <button type="button" class="btn texts" data-bs-toggle="modal" data-bs-target="#notificationModal">
+                    Notifications <i class="fa-solid fa-bell"></i><!-- Notification Bell Icon -->
+                </button>
+            
+                <!-- Modal for Notifications -->
+                <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content secbg">
+                            <div class="modal-header secbg">
+                                <h5 class="modal-title texts" id="notificationModalLabel">Notifications</h5>
+                                <!-- Close Button with Correct Dismiss Attribute -->
+                                <button type="button" onclick=""class="btn-close texts" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body secbg">
+                                <ul class="list-group secbg">
+                                    <!-- Hardcoded Notifications -->
+                                    <li class="list-group-item secbg">
+                                        <i class="fa-solid fa-bell me-2"></i>
+                                        <span class="texts">Event 1: Registration open for Coding Workshop</span>
+                                    </li>
+                                    <li class="list-group-item secbg">
+                                        <i class="fa-solid fa-bell me-2"></i>
+                                        <span class="texts">Event 2: New updates for the Hackathon event</span>
+                                    </li>
+                                    <li class="list-group-item secbg">
+                                        <i class="fa-solid fa-bell me-2"></i>
+                                        <span class="texts">Event 3: Deadline for Quiz Contest extended</span>
+                                    </li>
+                                    <li class="list-group-item secbg">
+                                        <i class="fa-solid fa-bell me-2"></i>
+                                        <span class="texts">Event 4: Workshop session rescheduled to 3 PM</span>
+                                    </li>
+                                    <li class="list-group-item secbg">
+                                        <i class="fa-solid fa-bell me-2"></i>
+                                        <span class="texts">Event 5: New event added: Designathon</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             <% } %>
 
@@ -292,10 +331,6 @@
                     <i class="fa-solid fa-house me-2 "></i>
                     <a class="nav-link texts" href="/listings/myBookmarks">My Bookmarks</a>
                 </li>
-                <!-- <li class="list-group-item secbg"></li>
-                    <i class="fa-solid fa-house me-2 "></i>
-                    <a class="nav-link texts" href="/listings/participated">Participated</a>
-                </li> -->
 
                 <!-- <li class="list-group-item secbg"></li>
                     <i class="fa-solid fa-house me-2 "></i>
@@ -320,3 +355,4 @@
         </div>
     </div>
 <% } %>
+
