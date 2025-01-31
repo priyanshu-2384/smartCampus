@@ -263,6 +263,23 @@
             display: none;
         }
     }
+    .tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .tag {
+            background: var(--pink);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
 </style>
 
 <body>
@@ -326,6 +343,13 @@
                 </div>
             </div>
         </header>
+        <div class="tags texts">
+            <% user.interests.forEach(interest=> { %>
+                <span class="tag">
+                    <%= interest %>
+                </span>
+                <% }) %>
+        </div>
         <h3 class="text-center texts mb-2">Posts</h3>
         <div class="gallery">
             <% for (let i = 0; i < user.posts.length; i++) { %>

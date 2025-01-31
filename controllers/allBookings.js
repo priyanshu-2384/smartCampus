@@ -33,6 +33,7 @@ const { STATES } = require("mongoose");
 // };
 module.exports.planSearch = async (req, res) => {
     let plans = await Event.find({}).populate('participants').populate('participants').populate('conductedBy').populate({ path: "reviews", populate: [{ path: "author"},{ path : "replies", populate : {path : "author"}}]});
+    plans = plans.reverse(); // Reverse the array
     res.render("booking/search", {plans});
 }
 
@@ -171,7 +172,10 @@ module.exports.addUser = async (req,res) => {
         if (!plan || !user) {
             return res.status(400).json({ success: false, message: 'Plan or user not found' });
         }
-        plan.participants.push(user);
+        if(user.role=='Student' || user.role=='Teacher') {
+            console.log('xxxxxxx');
+            plan.participants.push(user);
+        }
         await plan.save();
         res.json({ success: true, user });
     } catch (error) {

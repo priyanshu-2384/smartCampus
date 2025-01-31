@@ -187,6 +187,7 @@
                 <button id="leave-journey-btn" class="leave-btn texts" style="display: none;">Quit Event</button>
                 <button id="join-journey-btn" class="join-btn texts" style="display: inline-block;">Participate</button>
             <% } %>
+            <button id="join-journey-btn" class="join-btn texts ms-3" style="display: inline-block;">Give FeedBack</button>
             <% } %>
             <% if (currUser && (currUser.role=='Organiser' && currUser.fullname==plan.conductedBy.fullname)) { %>
             <form method="GET" action="/plan/participantsDetails/<%=plan._id%>">
