@@ -22,7 +22,7 @@ router.post("/joinJourney/:id/:userId", isLoggedIn, wrapAsync(planController.add
 
 router.post("/leaveJourney/:id/:userId", isLoggedIn, wrapAsync(planController.removeUser));
 
-
+router.get("/participantsDetails/:id",isLoggedIn,wrapAsync(planController.participantsDetails));
 // Commented out post route for filtering, make sure to uncomment if needed
 // router.post("/", wrapAsync(allBookingController.filter));
 router.get("/:id",isLoggedIn, wrapAsync(planController.getPlan))

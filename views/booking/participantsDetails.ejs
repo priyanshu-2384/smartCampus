@@ -1,0 +1,143 @@
+<% layout("layouts/boilerplate") %>
+
+<style>
+    :root {
+        --pink: #7F27FF;
+        --bg: #ffffff;
+        --text: #282828;
+        --sec: #ffff;
+    }
+
+    .darkmd {
+        --pink: #7F27FF;
+        --bg: #282828;
+        --text: #ffffff;
+        --sec: #31363F;
+    }
+
+    .dark {
+        border: none;
+        color: var(--text) !important;
+        background-color: transparent;
+    }
+
+    .bg {
+        background-color: var(--bg) !important;
+    }
+
+    .secbg {
+        background-color: var(--sec) !important;
+    }
+
+    .texts {
+        color: var(--text) !important;
+    }
+
+    .user-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: var(--bg);
+        color: var(--text);
+    }
+
+    .user-table th, .user-table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .user-table th {
+        background-color: var(--sec);
+    }
+
+    .user-table tr:hover {
+        background-color: #f1f1f161;
+    }
+
+    .btn-excel {
+        background-color: var(--pink);
+        color: var(--bg);
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .btn-excel:hover {
+        background-color: #5a1d8f;
+    }
+
+    .event-details {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+
+    .event-details p {
+        font-size: 18px;
+        margin: 5px 15px;
+    }
+</style>
+
+<div class="container bg texts mt-4">
+    <!-- Event Details Section -->
+    <h2 class="text mt-4" style="text-align: center;">Event Analytics, <%= plan.name %></h2>
+    <br>
+    <div class="event-details mt-4">
+        <div style="background-color: #31363F;">
+        <p><strong>Number of Registered Participants:</strong> <%= plan.participants.length %></p>
+        </div>
+        <div style="background-color: #31363F;">
+        <p><strong>Number of Queries:</strong> <%= plan.reviews.length %></p>
+        </div>
+        <div style="background-color: #31363F;">
+        <p><strong>Event Start Date:</strong> <%= new Date(plan.startdate).toLocaleDateString() %></p>
+        </div>
+        <div style="background-color: #31363F;">
+        <p><strong>Event End Date:</strong> <%= new Date(plan.endDate).toLocaleDateString() %></p>
+        </div>
+    </div>
+    <hr>
+    <!-- Participants Table -->
+     <div style="display: flex;
+     justify-content: space-between;
+     margin-bottom: 30px;
+     flex-wrap: wrap;">
+    <h3 class="text-center ms-3 mt-4">Participants Information</h3>
+    <button class="btn-excel mb-2" id="downloadExcel">Download as Excel</button>
+    </div>
+    <table class="user-table mt-3 me-3" id="userTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.fullname %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.contact %></td>
+                    <td><%= user.year %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div class="me-3">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+<script>
+    document.getElementById('downloadExcel').addEventListener('click', function () {
+        const table = document.getElementById('userTable');
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Participants Information" });
+
+        // Export the Excel file
+        XLSX.writeFile(wb, "Participants_Information.xlsx");
+    });
+</script>

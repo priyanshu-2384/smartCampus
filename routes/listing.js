@@ -29,6 +29,8 @@ router.post("/attendanceFilter",wrapAsync(listingController.attendanceFilter));
 router.get("/participated",wrapAsync(listingController.myParticipated));
 router.get("/organised",wrapAsync(listingController.myOrganised));
 
+router.get("/home",wrapAsync(listingController.home))
+
 router.get("/recommendations/:id",wrapAsync(listingController.recommendations));
 //filter by price
 router.get("/filter", listingController.filterShow);

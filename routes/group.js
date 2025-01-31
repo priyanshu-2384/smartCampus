@@ -13,7 +13,11 @@ const Group = require('../models/Group.js');
 
 router.get("/",isLoggedIn, wrapAsync(groupController.getAllGroups));
 router.get("/group/:id",isLoggedIn, wrapAsync(groupController.getGroup));
+router.post("/group/:id/createReview/:userId",isLoggedIn, wrapAsync(groupController.createReview));
 router.get("/createGroup",isLoggedIn, wrapAsync(groupController.getCreateGroup));
 
 router.post("/createGroup/:id",isLoggedIn,upload.single('group[image]'), wrapAsync(groupController.createGroup));
+
+router.post("/addUser/:id/:userId",isLoggedIn,wrapAsync(groupController.addUser));
+router.post("/removeUser/:id/:userId",isLoggedIn,wrapAsync(groupController.removeUser));
 module.exports = router;

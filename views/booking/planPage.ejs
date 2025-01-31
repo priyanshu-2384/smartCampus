@@ -178,14 +178,21 @@
                 <h3 class="card-text texts">Event organised by <i><%= plan.conductedBy.username %></i></h3>
                 <p class="card-text texts">Event details : <%= plan.description %></p>
                 </div>
-                <% if (isUserInterested) { %>
-                    <button id="leave-journey-btn" class="leave-btn texts" style="display: inline-block;">Quit Event</button>
-                    <button id="join-journey-btn" class="join-btn texts" style="display: none;">Participate</button>
-                <% } else { %>
-                    <button id="leave-journey-btn" class="leave-btn texts" style="display: none;">Quit Event</button>
-                    <button id="join-journey-btn" class="join-btn texts" style="display: inline-block;">Participate</button>
-                <% } %>
             </div>
+            <% if (currUser && (currUser.role=='Student' || currUser.role=='Teacher')) { %>
+            <% if (isUserInterested) { %>
+                <button id="leave-journey-btn" class="leave-btn texts" style="display: inline-block;">Quit Event</button>
+                <button id="join-journey-btn" class="join-btn texts" style="display: none;">Participate</button>
+            <% } else { %>
+                <button id="leave-journey-btn" class="leave-btn texts" style="display: none;">Quit Event</button>
+                <button id="join-journey-btn" class="join-btn texts" style="display: inline-block;">Participate</button>
+            <% } %>
+            <% } %>
+            <% if (currUser && (currUser.role=='Organiser' && currUser.fullname==plan.conductedBy.fullname)) { %>
+            <form method="GET" action="/plan/participantsDetails/<%=plan._id%>">
+                <button type='submit' id="join-journey-btn" class="leave-btn texts" style="display: inline-block;">Event Analytics</button>
+            </form>
+            <% } %>
             <hr class="texts">
             <div class="container">
                 <div class="following-list">

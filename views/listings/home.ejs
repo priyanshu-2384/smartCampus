@@ -1,0 +1,190 @@
+<% layout("layouts/boilerplate") %>
+    <style>
+        .card-user-title {
+            display: flex;
+            flex-direction: row;
+            padding-left: 0;
+        }
+
+        .user-image-card-title {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.6rem;
+            object-fit: cover;
+        }
+
+        .like-unlike-btn-listing,
+        button {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            padding-left: 0;
+            padding-bottom: 0.7rem;
+            outline: none;
+        }
+
+        .bookmark-listing {
+            display: flex;
+            flex-direction: row;
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            padding-left: 0;
+            padding-bottom: 0.7rem;
+            outline: none;
+            margin-left: auto;
+        }
+
+        .liked-icon-listing {
+            color: rgb(254, 66, 77) !important;
+            font-size: 40px;
+        }
+
+        .unliked-icon-listing {
+            color: white;
+            font-size: 40px;
+        }
+
+        .bookmark-like-listing {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .bookmarked-icon-listing {
+            color: white;
+            font-size: 40px;
+        }
+
+        .unbookmarked-icon-listing {
+            color: white;
+            font-size: 40px;
+        }
+
+        @media only screen and (max-width: 735px) {
+            .displayF {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        .card-text {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+            margin-top: 1rem;
+        }
+
+        .texts {
+            font-family: 'Arial', sans-serif;
+            color: #444;
+        }
+    </style>
+
+    <div>
+        <br>
+        <div class="navbar-nav " style="display: flex; flex-direction: column; align-items: center;">
+            <form class="d-flex col-10 col-md-6 " role="search" method="POST" action="/listings/city">
+                <input class="form-control search-inp me-2" type="search" name="location" placeholder="Search" required>
+                <button class="btn btn-search texts" type="submit"><i
+                        class="fa-solid fa-magnifying-glass"></i>Search</button>
+            </form>
+        </div>
+
+        <div class="head mt-4" style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        ">
+            <div>
+                <h2 class="texts">
+                    Upcoming Events At Campus
+                </h2>
+            </div>
+            <div>
+                <button class="texts btn btn-search" > <a href="/plan" class="texts" style="text-decoration: none;">View All</a></button>
+            </div>
+        </div>
+        <div class="row row-cols-lg-3 row row-cols-md-2 row row-cols-sm-1 mt-3 displayF">
+            <% for(let i=events.length-1; i>=0; i--) { %>
+                <% let event=events[i];%>
+                    <div class="card col listing-card bg">
+                        <a href="/plan/<%=event._id%>" class="listing-link">
+                            <img src="<%= event.image.url %>" class="card-img-top img-hover bg"
+                                alt="listing_image" style="width: 20rem; height: 20rem;">
+                        </a>
+                    </div>
+                    <% } %>
+        </div>
+
+        <div class="head mt-4" style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        ">
+            <div>
+                <h2 class="texts">
+                    Recommended Communities For You
+                </h2>
+            </div>
+            <div>
+                <button class="texts btn btn-search" > <a href="/getGroups" class="texts" style="text-decoration: none;">View All</a></button>
+            </div>
+        </div>
+        
+
+        <div class="row row-cols-lg-3 row row-cols-md-2 row row-cols-sm-1 mt-3 displayF">
+            <% for(let i=groups.length-1; i>=0; i--) { %>
+                <% let group=groups[i];%>
+                    <div class="card col listing-card bg">
+                        <a href="/getGroups/group/<%= group._id %>" class="listing-link">
+                            <img src="<%= group.image.url %>" class="card-img-top img-hover bg"
+                                alt="listing_image" style="width: 20rem; height: 20rem;">
+                        </a>
+                    </div>
+                    <% } %>
+        </div>
+
+        <div class="head mt-4" style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        ">
+            <div>
+                <h2 class="texts">
+                    Share Achievements, Announcements
+                </h2>
+            </div>
+            <div>
+                <button class="texts btn btn-search" > <a href="/listings" class="texts" style="text-decoration: none;">View All</a></button>
+            </div>
+        </div>
+
+        <div class="row row-cols-lg-3 row row-cols-md-2 row row-cols-sm-1 mt-3 displayF">
+            <% for(let i=allListings.length-1; i>=0; i--) { %>
+                <% let listing=allListings[i];%>
+                    <div class="card col listing-card bg">
+                        <a href="/u/<%= listing.owner.username %>" class="card-header-link">
+                            <div class="card-body card-user-title">
+                                <img src="<%= listing.owner.image.url %>" class="user-image-card-title">
+                                <div>
+                                    <h5 class="texts mt-1">
+                                        <%= listing.owner.username %>
+                                    </h5>
+                                    <p class="card-text texts"><i>
+                                            <%= listing.date.toString().split(" ").slice(1, 4).join(" -") %>
+                                        </i></p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="/listings/<%= listing._id %>" class="listing-link">
+                            <img src="<%= listing.image.list[0].url %>" class="card-img-top img-hover bg"
+                                alt="listing_image" style="width: 20rem; height: 20rem;">
+                        </a>
+                    </div>
+                    <% } %>
+        </div>
+    </div>

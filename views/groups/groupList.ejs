@@ -1,10 +1,26 @@
 <% layout("layouts/boilerplate") %>
 
 <style>
+    /* Apply theme colors using CSS variables */
+    :root {
+        --pink: #7F27FF;
+        --bg: #ffffff;
+        --text: #282828;
+        --sec: #ffff;
+    }
+
+    .darkmd {
+        --pink: #7F27FF;
+        --bg: #282828;
+        --text: #ffffff;
+        --sec: #31363F;
+    }
+
+    /* Group Card Styles */
     .group-card {
         display: flex;
         align-items: center;
-        background: #fff;
+        background: var(--sec);
         padding: 15px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -32,12 +48,13 @@
         margin: 0;
         font-size: 18px;
         font-weight: bold;
+        color: var(--text);
     }
     
     .group-info p {
         margin: 5px 0;
         font-size: 14px;
-        color: #666;
+        color: var(--text);
     }
     
     .tags {
@@ -47,16 +64,16 @@
     }
     
     .tag {
-        background: #e1251b;
-        color: #fff;
+        background: var(--pink);
+        color: var(--sec);
         padding: 5px 10px;
         border-radius: 5px;
         font-size: 12px;
     }
 
     .btn-create-group {
-        background: #e1251b;
-        color: white;
+        background: var(--pink);
+        color: var(--sec);
         padding: 10px 20px;
         border-radius: 5px;
         font-weight: bold;
@@ -65,19 +82,33 @@
     }
 
     .btn-create-group:hover {
-        background: #bf1e17;
-        color: white;
+        background: #6e1f9a;
+        color: var(--sec);
     }
+
     a {
-    text-decoration: none;
-}
+        text-decoration: none;
+    }
+
+    /* Backgrounds */
+    .bg {
+        background-color: var(--bg) !important;
+    }
+
+    .secbg {
+        background-color: var(--sec) !important;
+    }
+
+    .texts {
+        color: var(--text) !important;
+    }
 </style>
 
 <div class="container mt-4">
     <!-- Heading and Create Group button -->
     <div class="d-flex justify-content-between align-items-center">
-        <h2 class="text-white">Explore Groups</h2>
-        <a href="/getGroups/createGroup" class="btn-create-group">Create Group</a>
+        <h2 class="texts">Explore Communities</h2>
+        <a href="/getGroups/createGroup" class="btn-create-group">Create Community</a>
     </div>
     
     <br>

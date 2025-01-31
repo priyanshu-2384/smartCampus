@@ -1,11 +1,20 @@
 const Booking = require("../models/booking.js");
 const Listing = require("../models/listing.js");
 const Event = require("../models/Event.js");
+const Group = require("../models/Group.js");
 const User = require("../models/user.js");
 const AttEntry = require("../models/AttEntry.js");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const { spawn } = require("child_process");
 // const axios = require('axios');  
+
+module.exports.home = async (req, res) => {
+    console.log("hhhko");
+    let allListings = await Listing.find({}).populate("owner").populate("likedBy").populate("bookmarkedBy").limit(3);
+    let events = await Event.find({}).limit(3);
+    let groups = await Group.find({}).limit(3);
+    res.render("listings/home.ejs", { allListings,events,groups});
+};
 
 module.exports.index = async (req, res) => {
     let allListings = await Listing.find({}).populate("owner").populate("likedBy").populate("bookmarkedBy");

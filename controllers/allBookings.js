@@ -36,6 +36,14 @@ module.exports.planSearch = async (req, res) => {
     res.render("booking/search", {plans});
 }
 
+module.exports.participantsDetails = async (req, res) => {
+    console.log("zz");
+    let {id} = req.params;
+    let plan = await Event.findById(id).populate('participants');
+    let users = plan.participants;
+    res.render("booking/participantsDetails.ejs", {users,plan});
+}
+
 module.exports.planPage = async (req, res) => {
     let { city, month } = req.body;
     let c = city.toLowerCase();
