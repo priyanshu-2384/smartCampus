@@ -1,5 +1,6 @@
 if (process.env.NODE_ENV != "production") {
-    require('dotenv').config();   // save enviornment variables from env file to process.env
+    require('dotenv').config({ override: true });  // save enviornment variables from env file to process.env
+    // console.log("Loaded ATLASDB_URL:", process.env.ATLASDB_URL);
 }
 
 const express = require("express");
@@ -32,20 +33,20 @@ app.use(express.urlencoded({ extended: true }));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/smartCamp";
+const MONGO_URL = process.env.ATLASDB_URL;
 const dBUrl = "mongodb://127.0.0.1:27017/smartCamp";
 
 async function main() {
     await mongoose.connect(MONGO_URL);
 }
 main().then(() => {
-    console.log("Successfully Connected to DB");
+    console.log(`Successfully Connected to DB `);
 }).catch((err) => {
     console.log(err);
 });
 
 const store = MongoStore.create({
-    mongoUrl: dBUrl,      //stored in this database, the database which this url indicates(here cloud, we can also have the local computer one url)
+    mongoUrl: MONGO_URL,      //stored in this database, the database which this url indicates(here cloud, we can also have the local computer one url)
     crypto: {
         secret: process.env.SECRET,
     },
@@ -90,10 +91,10 @@ app.use( async (req, res, next) => {      //This middleware is used to store the
 
 app.use("/listings", listingsRouter);    //use listings(required above from routes folder) whenever /listings comes
 app.use("/listings/:id/reviews", reviewsRouter);  //use reviews(required above from routes folder) whenever /listings/:id/reviews comes
-app.use("/", userRouter);
 app.use("/listings/:id/booking", bookingRouter);
 app.use("/plan", allBookingsRouter);
 app.use("/getGroups",allGroupsRouter);
+app.use("/", userRouter);
 
 
 app.get("*", (req, res, next) => {

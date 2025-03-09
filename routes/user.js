@@ -10,9 +10,9 @@ const multer = require('multer');
 const {storage} = require('../cloudConfig.js');
 const upload = multer({storage});   //multer will save the uploads , which are done using it in the cloud storage of cloudinary
 
+router.get("/",isLoggedIn, wrapAsync(userController.home))
 //Get request Signup
 router.get("/signup",userController.signupForm);
-
 //Post request Signup
 router.post("/signup", wrapAsync(userController.signup));
 

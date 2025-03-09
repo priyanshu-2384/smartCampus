@@ -9,47 +9,6 @@ const { spawn } = require("child_process");
 const levenshtein = require("fast-levenshtein");
 // const axios = require('axios');  
 
-module.exports.home = async (req, res) => {
-    console.log("hhhko");
-
-    let allListings = await Listing.find({}).populate("owner").populate("likedBy").populate("bookmarkedBy").limit(3);
-    allListings = allListings.reverse(); // Reverse the array
-
-    let events = await Event.find({}).limit(3);
-    events = events.reverse();
-
-    let groups = await Group.find({});
-    let currUser = res.locals.currUser;
-    let interests = currUser.interests;
-    let newGroupsList = [];
-
-    // Function to check if two words are similar based on Levenshtein distance
-    function isSimilar(str1, str2) {
-        const threshold = 2; // Allow up to 2 edits (you can tweak this value)
-        return levenshtein.get(str1.toLowerCase(), str2.toLowerCase()) <= threshold;
-    }
-
-    // Filtering groups based on user's interests with fuzzy matching
-    for (let group of groups) {
-        if (group.tags.some(tag => interests.some(interest => isSimilar(tag, interest)))) {
-            newGroupsList.push(group);
-            console.log(group.name);
-        }
-    }
-
-    // If the filtered groups are less than 3, add random groups
-    if (newGroupsList.length < 3) {
-        let remainingGroups = groups.filter(group => !newGroupsList.includes(group));
-        let x = 0;
-        while(newGroupsList.length < 3 && x<remainingGroups.length)  {
-            newGroupsList.push(remainingGroups[x]);
-            x++;
-        }
-    }
-    groups = newGroupsList.reverse();
-    
-    res.render("listings/home.ejs", { allListings, events, groups });
-};
 
 module.exports.leaderboard = async (req, res) => {
     let users = await User.find({});
